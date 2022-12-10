@@ -212,7 +212,9 @@ int main(void)
 		glm::mat4 model;
 		glm::mat4 view;
 		glm::mat4 projection;
-		model = glm::rotate(model, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::rotate(model, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+
+		model = glm::translate(model, glm::vec3(0.0f,-1.0f,-3.0f));
 		
 		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 		projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
@@ -237,8 +239,8 @@ int main(void)
 		// Create transformations
 		glm::mat4 model2;
 
-		model2 = glm::rotate(model2, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-		model2 = glm::translate(model2, glm::vec3(-1.0f, -1.0f, -3.0f));
+		//model2 = glm::rotate(model2, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		model2 = glm::translate(model2, glm::vec3(-2.0f, -1.0f, -3.0f));
 
 		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 		projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
@@ -259,9 +261,9 @@ int main(void)
 		// Create transformations
 		glm::mat4 model3;
 
-		model3 = glm::scale(model3, glm::vec3(0.5f, 0.5f, 0.5f));
+		model3 = glm::scale(model3, glm::vec3(1.0f, 1.0f, 1.0f));
 		//model3 = glm::rotate(model3, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-		model3 = glm::translate(model3, glm::vec3(2.0f, 1.0f, 3.0f));
+		model3 = glm::translate(model3, glm::vec3(2.0f, -1.0f, -3.0f));
 
 		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 		projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
@@ -275,72 +277,6 @@ int main(void)
 		glBindVertexArray(VAO[0]);
 		glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
 
-		// Draw the forth cube
-		// use shader
-		glUseProgram(shaderProgram);
-
-		// Create transformations
-		glm::mat4 model4;
-
-		model4 = glm::scale(model4, glm::vec3(1.5f, 1.5f, 1.5f));
-		//model3 = glm::rotate(model3, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-		model4 = glm::translate(model4, glm::vec3(0.0f, -3.0f, -5.0f));
-
-		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-		projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
-
-		// Pass them to the shaders
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model4));
-		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
-		// draw object
-		glBindVertexArray(VAO[0]);
-		glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
-
-		// Draw the fifth cube
-		// use shader
-		glUseProgram(shaderProgram);
-
-		// Create transformations
-		glm::mat4 model5;
-
-		model5 = glm::scale(model5, glm::vec3(1.25f, 1.25f, 1.25f));
-		model5 = glm::translate(model5, glm::vec3(6.0f, glm::abs(glm::sin(time) * 1.5f), -8.0f));
-
-		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-		projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
-
-		// Pass them to the shaders
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model5));
-		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
-		// draw object
-		glBindVertexArray(VAO[0]);
-		glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
-
-		// Draw the sixth cube
-		// use shader
-		glUseProgram(shaderProgram);
-
-		// Create transformations
-		glm::mat4 model6;
-
-		model6 = glm::scale(model6, glm::vec3(2.25f, 2.25f, 2.25f));
-		model6 = glm::translate(model6, glm::vec3(glm::abs(glm::sin(time) * 4.5f), 2.0f, -4.0f));
-
-		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-		projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
-
-		// Pass them to the shaders
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model6));
-		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
-		// draw object
-		glBindVertexArray(VAO[0]);
-		glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
 
 		// Draw the pyramid
 		// use shader
@@ -349,9 +285,9 @@ int main(void)
 		// Create transformations
 		glm::mat4 pyramidModel;
 
-		pyramidModel = glm::scale(pyramidModel, glm::vec3(2.25f, 2.25f, 2.25f));
+		pyramidModel = glm::scale(pyramidModel, glm::vec3(2.0f, 2.0f, 2.0f));
 		//pyramidModel = glm::translate(pyramidModel, glm::vec3(glm::abs(glm::sin(time) * 4.5f), 2.0f, -4.0f));
-		pyramidModel = glm::translate(pyramidModel, glm::vec3(0.0f,-2.0f,-3.0f));
+		pyramidModel = glm::translate(pyramidModel, glm::vec3(-4.0f,-2.0f,-4.0f));
 
 		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 		projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
@@ -372,9 +308,9 @@ int main(void)
 		// Create transformations
 		glm::mat4 pyramidModel2;
 
-		pyramidModel2 = glm::scale(pyramidModel2, glm::vec3(2.25f, 2.25f, 2.25f));
+		pyramidModel2 = glm::scale(pyramidModel2, glm::vec3(2.0f, 2.0f, 2.0f));
 		//pyramidModel = glm::translate(pyramidModel, glm::vec3(glm::abs(glm::sin(time) * 4.5f), 2.0f, -4.0f));
-		pyramidModel2 = glm::translate(pyramidModel2, glm::vec3(-3.0f, -2.0f, -3.0f));
+		pyramidModel2 = glm::translate(pyramidModel2, glm::vec3(-1.0f, -2.0f, -4.0f));
 
 		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 		projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
@@ -389,62 +325,10 @@ int main(void)
 		glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
 
 
-		// Draw the third pyramid
-		// use shader
-		glUseProgram(shaderProgram);
-
-		// Create transformations
-		glm::mat4 pyramidModel3;
-
-		pyramidModel3 = glm::scale(pyramidModel3, glm::vec3(1.0f, 1.0f, 1.0f));
-		//pyramidModel = glm::translate(pyramidModel, glm::vec3(glm::abs(glm::sin(time) * 4.5f), 2.0f, -4.0f));
-		pyramidModel3 = glm::translate(pyramidModel3, glm::vec3(2.0f, -3.0f, -3.0f));
-		pyramidModel3 = glm::rotate(pyramidModel3, 1.5f, glm::vec3(0.0f,1.0f,0.0f));
-
-		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-		projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
-
-		// Pass them to the shaders
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(pyramidModel3));
-		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
-		// draw object
-		glBindVertexArray(VAO[1]);
-		glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
-
-
-
-		// Draw the third pyramid
-		// use shader
-		glUseProgram(shaderProgram);
-
-		// Create transformations
-		glm::mat4 pyramidModel4;
-
-		pyramidModel4 = glm::scale(pyramidModel4, glm::vec3(2.0f, 2.0f, 2.0f));
-		//pyramidModel = glm::translate(pyramidModel, glm::vec3(glm::abs(glm::sin(time) * 4.5f), 2.0f, -4.0f));
-		pyramidModel4 = glm::translate(pyramidModel4, glm::vec3(time * 0.5f, -3.0f, -3.0f));
-		pyramidModel4 = glm::rotate(pyramidModel4, 1.5f, glm::vec3(0.0f, 1.0f, 0.0f));
-
-		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-		projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
-
-		// Pass them to the shaders
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(pyramidModel4));
-		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
-		// draw object
-		glBindVertexArray(VAO[1]);
-		glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
-
 		int state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
 		if (state == GLFW_PRESS)
 		{
-			// draw object
-			glBindVertexArray(VAO[1]);
-			glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
+
 			std::cout << "Key Pressed" << std::endl;
 		}
 
