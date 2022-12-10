@@ -39,6 +39,10 @@ glm::vec3 lightPos(1.0f, 0.0f, 1.0f);
 GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
 GLfloat lastFrame = 0.0f;  	// Time of last frame
 
+int objectsInstantiated = 0;
+GLfloat timeLastPressed = 0;
+GLfloat pressDelayTime = 0.5f;
+
 int main(void)
 {
 	//++++create a glfw window+++++++++++++++++++++++++++++++++++++++
@@ -325,11 +329,41 @@ int main(void)
 		glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
 
 
-		int state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
-		if (state == GLFW_PRESS)
-		{
 
+		//Instantiated Objects
+
+		// Draw the first instantiated cube
+		// use shader
+		glUseProgram(shaderProgram);
+
+
+		// Create transformations
+		glm::mat4 models[100];
+
+		model3 = glm::scale(model3, glm::vec3(1.0f, 1.0f, 1.0f));
+		//model3 = glm::rotate(model3, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		model3 = glm::translate(model3, glm::vec3(2.0f, -1.0f, -3.0f));
+
+		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+		projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
+
+		// Pass them to the shaders
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model3));
+		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+		// draw object
+		glBindVertexArray(VAO[0]);
+		glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
+
+
+		int state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+		if (state == GLFW_PRESS && time >= timeLastPressed + pressDelayTime)
+		{
+			timeLastPressed = time;
 			std::cout << "Key Pressed" << std::endl;
+			objectsInstantiated = objectsInstantiated + 1;
+			std::cout << objectsInstantiated << std::endl;
 		}
 
 	
