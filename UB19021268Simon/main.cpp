@@ -302,7 +302,7 @@ int main(void)
 		do_movement();
 
 		/* Render here */
-		glClearColor(0.5f, 0.3f, 0.3f, 1.0f);
+		glClearColor(0.2f, 0.2f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		// Draw the cube
@@ -378,13 +378,13 @@ int main(void)
 		glm::mat4 destroyableModels[100];
 
 		int stateTwo = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT);
-		if ((int)time % 5 == 0 && time >= timeSinceDesRefresh + desRefreshTime)
+		if ( time >= timeSinceDesRefresh + desRefreshTime)
 		{
 			timeSinceDesRefresh = time;
 			destroyableObjects = destroyableObjects + 1;
-			destroyableDistance[destroyableObjects] = time;		//Store Distance traveled for each object instance created
+			destroyableDistance[destroyableObjects] = time * 3.0f;		//Store Distance traveled for each object instance created
 
-			int random = rand() % 7 + (-3);			//Random number between range 3 and -3
+			int random = rand() % 5 + (-2);			//Random number between range 2 and -2
 			destroyableObjectPos[destroyableObjects] = glm::vec3(random, 0.0f, destroyableDistance[destroyableObjects]);
 
 			//Debug
@@ -394,6 +394,7 @@ int main(void)
 
 		}
 
+		glUniform3f(objectColorLoc, 1.0f, 0.0f, 1.0f);									//Object Color
 		InstantiatedDestroyableObject(destroyableModels, view, projection, modelLoc, viewLoc, projLoc, VAO[0], destroyableDistance);
 
 
