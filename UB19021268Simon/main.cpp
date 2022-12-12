@@ -129,7 +129,7 @@ void InstantiatedDestroyableObject(glm::mat4 models[100], glm::mat4 view, glm::m
 		if (destroyableObjects >= i) {		//For each object
 			models[i] = glm::scale(models[i], glm::vec3(1.0f, 1.0f, 1.0f));
 			//model3 = glm::rotate(model3, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-			models[i] = glm::translate(models[i], glm::vec3(0.0f, 0.0f, -distanceTraveled[i]));			//shoot bullet from player perspective
+			models[i] = glm::translate(models[i], glm::vec3(destroyableObjectPos[i].x, 0.0f, -distanceTraveled[i]));			//shoot bullet from player perspective
 
 			view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 			projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
@@ -368,6 +368,33 @@ int main(void)
 		// draw object
 		glBindVertexArray(VAO[0]);
 		glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
+
+
+		//Draw Destroyable Objects
+
+
+
+		GLfloat destroyableDistance[100];
+		glm::mat4 destroyableModels[100];
+
+		int stateTwo = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT);
+		if ((int)time % 5 == 0 && time >= timeSinceDesRefresh + desRefreshTime)
+		{
+			timeSinceDesRefresh = time;
+			destroyableObjects = destroyableObjects + 1;
+			destroyableDistance[destroyableObjects] = time;		//Store Distance traveled for each object instance created
+
+			int random = rand() % 7 + (-3);			//Random number between range 3 and -3
+			destroyableObjectPos[destroyableObjects] = glm::vec3(random, 0.0f, destroyableDistance[destroyableObjects]);
+
+			//Debug
+			std::cout << "Destroyable " << destroyableObjects << " Object Instantiated" << std::endl;
+			std::cout << destroyableObjectPos[destroyableObjects].x << std::endl;
+			//std::cout << objectsInstantiated << std::endl;
+
+		}
+
+		InstantiatedDestroyableObject(destroyableModels, view, projection, modelLoc, viewLoc, projLoc, VAO[0], destroyableDistance);
 
 
 
@@ -629,23 +656,7 @@ int main(void)
 			}
 		}*/
 
-		GLfloat destroyableDistance[100];
-		glm::mat4 destroyableModels[100];
-
-		int stateTwo = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT);
-		if (stateTwo == GLFW_PRESS && time >= timeSinceDesRefresh + desRefreshTime)
-		{
-			timeSinceDesRefresh = time;
-			destroyableObjects = destroyableObjects + 1;
-			destroyableDistance[destroyableObjects] = time;		//Store Distance traveled for each object instance created
-
-			//Debug
-			std::cout << "Destroyable " << destroyableObjects << " Object Instantiated" << std::endl;
-			//std::cout << objectsInstantiated << std::endl;
-
-		}
-
-		InstantiatedDestroyableObject(destroyableModels, view, projection, modelLoc, viewLoc, projLoc, VAO[0], destroyableDistance);
+		
 
 	
 		glBindVertexArray(0);
