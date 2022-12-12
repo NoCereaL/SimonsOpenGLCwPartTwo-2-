@@ -283,6 +283,32 @@ int main(void)
 		glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
 
 
+		//Draw Floor
+
+		// Draw the third cube
+		// use shader
+		glUseProgram(shaderProgram);
+
+		// Create transformations
+		glm::mat4 floor;
+
+		floor = glm::scale(floor, glm::vec3(3.0f, 1.0f, 5.0f));
+		//model3 = glm::rotate(model3, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		floor = glm::translate(floor, glm::vec3(0.0f, -2.0f, 0.0f));
+
+		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+		projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
+
+		// Pass them to the shaders
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(floor));
+		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+		// draw object
+		glBindVertexArray(VAO[0]);
+		glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
+
+
 		// Draw the pyramid
 		// use shader
 		glUseProgram(shaderProgram);
@@ -359,6 +385,8 @@ int main(void)
 		glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
 
 
+
+		//On Click Method
 		int state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
 		if (state == GLFW_PRESS && time >= timeLastPressed + pressDelayTime)
 		{
@@ -376,13 +404,13 @@ int main(void)
 		//model3 = glm::rotate(model3, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
 		//models[objectsInstantiated] = glm::translate(models[objectsInstantiated], glm::vec3(0.0f, -1.0f, -time + timeLastPressed));
 
-		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-		projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
+		//view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+		//projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
 
 		// Pass them to the shaders
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(models[objectsInstantiated]));
-		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(models[objectsInstantiated]));
+		//glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+		//glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
 		// draw object
 		//glBindVertexArray(VAO[0]);
@@ -397,7 +425,7 @@ int main(void)
 
 		itteration = itteration + 1;
 		int x = objectsInstantiated - itteration;
-		models[objectsInstantiated] = glm::scale(models[objectsInstantiated], glm::vec3(1.0f, 1.0f, 1.0f));
+		/*models[objectsInstantiated] = glm::scale(models[objectsInstantiated], glm::vec3(1.0f, 1.0f, 1.0f));
 		//model3 = glm::rotate(model3, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
 		//models[objectsInstantiated] = glm::translate(models[objectsInstantiated], glm::vec3(0.0f, -1.0, 0.0f));
 
@@ -412,6 +440,7 @@ int main(void)
 		// draw object
 		glBindVertexArray(VAO[0]);
 		glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
+		*/
 
 		/*
 		if (objectsInstantiated >= 1) {
@@ -433,12 +462,34 @@ int main(void)
 		}
 		*/
 
-		for (int i = 0; i <= objectsInstantiated; i++)
+		/*
+		for (int i = 0; i <= objectsInstantiated; i++)		//For every object instantiated, dray arrays
 		{
-			if (objectsInstantiated >= i) {
+			if (objectsInstantiated >= i) {		//For each object
 				models[i] = glm::scale(models[i], glm::vec3(1.0f, 1.0f, 1.0f));
 				//model3 = glm::rotate(model3, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-				models[i] = glm::translate(models[i], glm::vec3(0.0f, 0.0, -distanceTraveled[i]));
+				models[i] = glm::translate(models[i], glm::vec3(0.0f, 0.0, -distanceTraveled[i]));			//show object at position instantiated
+
+				view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+				projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
+
+				// Pass them to the shaders
+				glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(models[i]));
+				glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+				glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+				// draw object
+				glBindVertexArray(VAO[0]);
+				glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
+			}
+		}*/
+
+		for (int i = 0; i <= objectsInstantiated; i++)		//For every object instantiated, dray arrays
+		{
+			if (objectsInstantiated >= i) {		//For each object
+				models[i] = glm::scale(models[i], glm::vec3(1.0f, 1.0f, 1.0f));
+				//model3 = glm::rotate(model3, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+				models[i] = glm::translate(models[i], glm::vec3(0.0f, 0.0f, -distanceTraveled[i]));			//show object at position instantiated
 
 				view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 				projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
