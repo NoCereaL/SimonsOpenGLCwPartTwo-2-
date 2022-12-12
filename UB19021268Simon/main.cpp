@@ -208,7 +208,7 @@ int main(void)
 		GLint lightColorLoc = glGetUniformLocation(shaderProgram, "lightColor");
 		GLint lightPosLoc = glGetUniformLocation(shaderProgram, "lightPos");
 		GLint viewPosLoc = glGetUniformLocation(shaderProgram, "viewPos");
-		glUniform3f(objectColorLoc, 1.0f, 0.0f, 0.0f);
+		glUniform3f(objectColorLoc, 1.0f, 0.0f, 0.0f);									//Object Color
 		glUniform3f(lightColorLoc, 1.0f, 1.0f, 1.0f);
 		glUniform3f(lightPosLoc, lightPos.x, lightPos.y, lightPos.z);
 		glUniform3f(viewPosLoc, cameraPos.x, cameraPos.y, cameraPos.z);
@@ -300,6 +300,7 @@ int main(void)
 		projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
 
 		// Pass them to the shaders
+		glUniform3f(objectColorLoc, 0.0f, 1.0f, 0.0f);									//Object Color
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(floor));
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
@@ -324,6 +325,7 @@ int main(void)
 		projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
 
 		// Pass them to the shaders
+		glUniform3f(objectColorLoc, 1.0f, 0.0f, 1.0f);									//Object Color
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(pyramidModel));
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
@@ -347,6 +349,7 @@ int main(void)
 		projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
 
 		// Pass them to the shaders
+		glUniform3f(objectColorLoc, 0.0f, 1.0f, 1.0f);									//Object Color
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(pyramidModel2));
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
