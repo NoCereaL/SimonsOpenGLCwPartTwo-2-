@@ -105,8 +105,9 @@ void InstantiatedBullet(glm::mat4 models[100], glm::mat4 view, glm::mat4 project
 		if (objectsInstantiated >= i) {		//For each object
 			models[i] = glm::scale(models[i], glm::vec3(1.0f, 1.0f, 1.0f));
 			//model3 = glm::rotate(model3, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-			models[i] = glm::translate(models[i], glm::vec3(cameraPos.x -2.5f + cameraPos.x, cameraPos.y -2.5f , -cameraPos.z + (-distanceTraveled[i] -(GLfloat)glfwGetTime()) + distanceTraveled[i] *3 - distanceTraveled[i]));			//shoot bullet from player perspective
-			//models[i] = glm::translate(models[i], glm::vec3(cameraPos.x -2.5f + cameraPos.x, cameraPos.y -2.5f ,  - distanceTraveled[i]));			//shoot bullet from player perspective
+			//models[i] = glm::translate(models[i], glm::vec3(cameraPos.x -2.5f + cameraPos.x, cameraPos.y -2.5f ,  (-distanceTraveled[i] -(GLfloat)glfwGetTime()) + distanceTraveled[i] *3 - distanceTraveled[i] - cameraUp.z));			//shoot bullet from player perspective
+			//models[i] = glm::translate(models[i], glm::vec3(cameraPos.x -2.5f + cameraPos.x, cameraPos.y -2.5f ,  - distanceTraveled[i]  ));			//shoot bullet from player perspective
+			models[i] = glm::translate(models[i], glm::vec3(cameraPos.x -2.5f + cameraPos.x, cameraPos.y -2.5f , cameraPos.z + -(GLfloat)glfwGetTime() + distanceTraveled[i] -3 ));			//shoot bullet from player perspective
 
 			view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 			projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
@@ -394,7 +395,7 @@ int main(void)
 
 		}
 
-		glUniform3f(objectColorLoc, 1.0f, 0.0f, 1.0f);									//Object Color
+		glUniform3f(objectColorLoc, 0.0f, 0.0f, 1.0f);									//Object Color
 		InstantiatedDestroyableObject(destroyableModels, view, projection, modelLoc, viewLoc, projLoc, VAO[0], destroyableDistance);
 
 
