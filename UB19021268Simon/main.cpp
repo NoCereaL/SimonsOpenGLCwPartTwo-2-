@@ -55,6 +55,9 @@ GLfloat timeSinceDesRefresh = 0;
 GLfloat desRefreshTime = 1.5f;
 bool finishedSpawn = false;
 
+//Bullet properties
+int speed = 10;
+
 
 void InstantiatedObject(glm::mat4 view, glm::mat4 projection, GLint modelLoc, GLint viewLoc, GLint projLoc, GLuint VAO) {
 	glm::mat4 model;
@@ -107,7 +110,7 @@ void InstantiatedBullet(glm::mat4 models[100], glm::mat4 view, glm::mat4 project
 			//model3 = glm::rotate(model3, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
 			//models[i] = glm::translate(models[i], glm::vec3(cameraPos.x -2.5f + cameraPos.x, cameraPos.y -2.5f ,  (-distanceTraveled[i] -(GLfloat)glfwGetTime()) + distanceTraveled[i] *3 - distanceTraveled[i] - cameraUp.z));			//shoot bullet from player perspective
 			//models[i] = glm::translate(models[i], glm::vec3(cameraPos.x -2.5f + cameraPos.x, cameraPos.y -2.5f ,  - distanceTraveled[i]  ));			//shoot bullet from player perspective
-			models[i] = glm::translate(models[i], glm::vec3(cameraPos.x -2.5f + cameraPos.x, cameraPos.y -2.5f , cameraPos.z + -(GLfloat)glfwGetTime() + distanceTraveled[i] -3 ));			//shoot bullet from player perspective
+			models[i] = glm::translate(models[i], glm::vec3(cameraPos.x -2.5f + cameraPos.x, cameraPos.y -2.5f , cameraPos.z + (-(GLfloat)glfwGetTime()*speed) + (distanceTraveled[i]*speed) -3 ));			//shoot bullet from player perspective		| Remember time has to = 0 to translate by time from current pos
 
 			view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 			projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
