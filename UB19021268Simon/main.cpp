@@ -56,7 +56,7 @@ GLfloat desRefreshTime = 1.5f;
 bool finishedSpawn = false;
 
 //Bullet properties
-int speed = 10;
+int speed = 30;
 glm::vec3 bulletPosition[100];
 
 
@@ -404,8 +404,6 @@ int main(void)
 		glUniform3f(objectColorLoc, 0.0f, 0.0f, 1.0f);									//Object Color
 		InstantiatedDestroyableObject(destroyableModels, view, projection, modelLoc, viewLoc, projLoc, VAO[0], destroyableDistance);
 
-
-
 		// Draw the second cube
 		// use shader
 		glUseProgram(shaderProgram);
@@ -682,6 +680,7 @@ int main(void)
 	glfwTerminate();
 	return 0;
 }
+
 
 void on_click(int key) {
 
