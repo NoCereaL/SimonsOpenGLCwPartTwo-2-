@@ -395,8 +395,8 @@ int main(void)
 			destroyableObjectPos[destroyableObjects] = glm::vec3(random, 0.0f, destroyableDistance[destroyableObjects]);
 
 			//Debug
-			std::cout << "Destroyable " << destroyableObjects << " Object Instantiated" << std::endl;
-			std::cout << destroyableObjectPos[destroyableObjects].x << std::endl;
+			//std::cout << "Destroyable " << destroyableObjects << " Object Instantiated" << std::endl;
+			//std::cout << destroyableObjectPos[destroyableObjects].x << std::endl;
 			//std::cout << objectsInstantiated << std::endl;
 
 		}
@@ -541,28 +541,23 @@ int main(void)
 			distanceTraveled[objectsInstantiated] = time;		//Store Distance traveled for each object instance created
 
 			//Debug
-			std::cout << "Key Pressed" << std::endl;
-			std::cout << objectsInstantiated << std::endl;
+			//std::cout << "Key Pressed" << std::endl;
+			//std::cout << objectsInstantiated << std::endl;
 			
 		}
 
 		InstantiatedBullet(models, view, projection, modelLoc, viewLoc, projLoc, VAO[0], distanceTraveled);
+		for (int i = 0; i <= objectsInstantiated; i++)
+		{
+			bulletPosition[objectsInstantiated] = glm::vec3(cameraPos.x, cameraPos.y, cameraPos.z + (-(GLfloat)glfwGetTime() * speed) + (distanceTraveled[i] * speed) - 3);		//Store bullet position
+
+			//Debug Current Bullet Position
+			//std::cout << "Bullet X Pos: " << bulletPosition[i].x << std::endl;
+			//std::cout << "Bullet Y Pos: " << bulletPosition[i].y << std::endl;
+			//std::cout << "Bullet Z Pos: " << bulletPosition[i].z << std::endl;
+		}
 
 		models[objectsInstantiated] = glm::scale(models[objectsInstantiated], glm::vec3(1.0f, 1.0f, 1.0f));
-		//model3 = glm::rotate(model3, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-		//models[objectsInstantiated] = glm::translate(models[objectsInstantiated], glm::vec3(0.0f, -1.0f, -time + timeLastPressed));
-
-		//view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-		//projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
-
-		// Pass them to the shaders
-		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(models[objectsInstantiated]));
-		//glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-		//glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
-		// draw object
-		//glBindVertexArray(VAO[0]);
-		//glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
 		
 		/*
 		for (glm::mat4 modd : models)
@@ -570,100 +565,6 @@ int main(void)
 
 			}
 		}*/
-
-
-		/*
-		for (int i = 0; i <= objectsInstantiated; i++)		//For every object instantiated, dray arrays
-		{
-			if (objectsInstantiated >= i) {		//For each object
-				models[i] = glm::scale(models[i], glm::vec3(1.0f, 1.0f, 1.0f));
-				//model3 = glm::rotate(model3, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-				models[i] = glm::translate(models[i], glm::vec3(0.0f, 0.0, -distanceTraveled[i]));			//show object at position instantiated
-
-				view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-				projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
-
-				// Pass them to the shaders
-				glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(models[i]));
-				glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-				glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
-				// draw object
-				glBindVertexArray(VAO[0]);
-				glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
-			}
-		}*/
-
-		for (int i = 0; i <= objectsInstantiated; i++)		//For every object instantiated, dray arrays
-		{
-			if (objectsInstantiated >= i) {		//For each object
-				models[i] = glm::scale(models[i], glm::vec3(1.0f, 1.0f, 1.0f));
-				//model3 = glm::rotate(model3, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-				//models[i] = glm::translate(models[i], glm::vec3(cameraPos.x -2.5f,cameraPos.y -2.5f, -distanceTraveled[i]));			//show object at position instantiated
-
-				view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-				projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
-
-				// Pass them to the shaders
-				glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(models[i]));
-				glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-				glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
-				// draw object
-				//glBindVertexArray(VAO[0]);
-				//glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
-			}
-		}
-		//InstantiatedObjects(models,view,projection, modelLoc, viewLoc, projLoc, VAO[0], distanceTraveled);
-
-		/*
-		if (time >= timeSinceDesRefresh + desRefreshTime) {
-			timeSinceDesRefresh = time;
-			for (int i = 0; i <= destroyableObjects; i++)
-			{
-
-				int random = rand() % 7 + (-3);				//Random number between 3 and -3
-				//std::cout << random  << std::endl;				//Debug Random number
-
-				desZPos = desZPos + 0.25f;
-				//std::cout << desZPos << std::endl;				//Debug Destroyable Object Z axis number
-				destroyableObjectPos[i] = glm::vec3(0.0f, 0.0f, desZPos);
-				std::cout << destroyableObjectPos[i].z << std::endl;
-			}
-		}*/
-
-		/*
-		destroyableObjectPos[0] = glm::vec3(0.0f, 0.0f, 0.01f);
-		destroyableObjectPos[1] = glm::vec3(0.0f, 0.01f, 1.0f);
-		destroyableObjectPos[2] = glm::vec3(0.01f, 0.0f, 1.5f);
-
-		for (int i = 0; i <= destroyableObjects; i++)		//For every object instantiated, dray arrays
-		{
-			if (destroyableObjects >= i) {		//For each object
-				
-				destroyableObjectPos[0] = glm::vec3(0.01f, 0, 0);
-				destroyableModels[i] = glm::scale(destroyableModels[i], glm::vec3(1.0f, 1.0f, 1.0f));
-				//model3 = glm::rotate(model3, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-				destroyableModels[i] = glm::translate(destroyableModels[i], destroyableObjectPos[i]);			//show object at position instantiated
-
-				view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-				projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
-
-				// Pass them to the shaders
-				glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(destroyableModels[i]));
-				glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-				glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
-				// draw object
-				glBindVertexArray(VAO[0]);
-				glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
-				//std::cout << destroyableObjectPos[i].z << std::endl;
-
-			}
-		}*/
-
-		
-
 	
 		glBindVertexArray(0);
 
