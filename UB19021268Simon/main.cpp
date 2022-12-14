@@ -557,6 +557,26 @@ int main(void)
 			//std::cout << "Bullet Z Pos: " << bulletPosition[i].z << std::endl;
 		}
 
+
+		
+		//Collision Method
+		for (int i = 0; i <= objectsInstantiated; i++)
+		{
+			for (int j = 0; j <= destroyableObjects; j++)
+			{
+				if (bulletPosition[objectsInstantiated].x * 2.0f >= destroyableObjectPos[5].x && bulletPosition[objectsInstantiated].x * 2.0f <= destroyableObjectPos[5].x + 0.5f) { // Check negative x for bullet in range of objects x width 
+					//std::cout << "Bullet Collided with Object in the negative x range!"  << std::endl;
+					std::cout << "DesObj X Pos: " << destroyableObjectPos[5].x << std::endl;
+					std::cout << "Bullet X Pos: " << bulletPosition[objectsInstantiated].x << std::endl;
+				}
+				if (bulletPosition[objectsInstantiated].x <= destroyableObjectPos[destroyableObjects].x - 0.25f && bulletPosition[objectsInstantiated].x <= destroyableObjectPos[destroyableObjects].x) { // Check negative x for bullet in range of objects x width 
+					//std::cout << "Bullet Collided with Object in the positive x range!" << std::endl;
+				}
+			}
+		}
+
+
+
 		models[objectsInstantiated] = glm::scale(models[objectsInstantiated], glm::vec3(1.0f, 1.0f, 1.0f));
 		
 		/*
