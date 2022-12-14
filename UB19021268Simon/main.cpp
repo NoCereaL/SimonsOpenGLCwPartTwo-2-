@@ -56,7 +56,7 @@ GLfloat desRefreshTime = 1.5f;
 bool finishedSpawn = false;
 
 //Bullet properties
-int speed = 30;
+int speed = 90;
 glm::vec3 bulletPosition[100];
 
 
@@ -567,7 +567,7 @@ int main(void)
 				//std::cout << "Des Obj Z Pos: " << destroyableObjectPos[destroyableObjects].z << std::endl;
 				//std::cout << "Bullet Z Pos: " << bulletPosition[objectsInstantiated].z << std::endl;
 
-				if (bulletPosition[objectsInstantiated].x * 2.0f >= destroyableObjectPos[j].x && bulletPosition[objectsInstantiated].x * 2.0f <= destroyableObjectPos[j].x + 0.5f) { // Check negative x for bullet in range of objects x width 
+				if (bulletPosition[objectsInstantiated].x * 2.0f +0.5f >= destroyableObjectPos[j].x && bulletPosition[objectsInstantiated].x * 2.0f +0.5f <= destroyableObjectPos[j].x + 1.0f) { // Check negative x for bullet in range of objects x width 
 					//std::cout << "Bullet Collided with Object in the negative x range!"  << std::endl;
 					
 					
