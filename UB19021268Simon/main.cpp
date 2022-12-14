@@ -136,7 +136,7 @@ void InstantiatedDestroyableObject(glm::mat4 models[100], glm::mat4 view, glm::m
 		if (destroyableObjects >= i) {		//For each object
 			models[i] = glm::scale(models[i], glm::vec3(1.0f, 1.0f, 1.0f));
 			//model3 = glm::rotate(model3, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-			models[i] = glm::translate(models[i], glm::vec3(destroyableObjectPos[i].x, 0.0f, -distanceTraveled[i]));			//shoot bullet from player perspective
+			models[i] = glm::translate(models[i], glm::vec3(destroyableObjectPos[i].x, destroyableObjectPos[i].y, -distanceTraveled[i]));			//shoot bullet from player perspective
 
 			view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 			projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
@@ -564,12 +564,24 @@ int main(void)
 		{
 			for (int j = 0; j <= destroyableObjects; j++)
 			{
-				if (bulletPosition[objectsInstantiated].x * 2.0f >= destroyableObjectPos[5].x && bulletPosition[objectsInstantiated].x * 2.0f <= destroyableObjectPos[5].x + 0.5f) { // Check negative x for bullet in range of objects x width 
+				//std::cout << "Des Obj Z Pos: " << destroyableObjectPos[destroyableObjects].z << std::endl;
+				//std::cout << "Bullet Z Pos: " << bulletPosition[objectsInstantiated].z << std::endl;
+
+				if (bulletPosition[objectsInstantiated].x * 2.0f >= destroyableObjectPos[j].x && bulletPosition[objectsInstantiated].x * 2.0f <= destroyableObjectPos[j].x + 0.5f) { // Check negative x for bullet in range of objects x width 
 					//std::cout << "Bullet Collided with Object in the negative x range!"  << std::endl;
-					std::cout << "DesObj X Pos: " << destroyableObjectPos[5].x << std::endl;
-					std::cout << "Bullet X Pos: " << bulletPosition[objectsInstantiated].x << std::endl;
+					
+					
+					if (-bulletPosition[objectsInstantiated].z <= destroyableDistance[j] && -bulletPosition[objectsInstantiated].z >= destroyableDistance[j] - 1.5f) {		//Check if the bullet is at face or in a cube
+						destroyableObjectPos[j].y = -30.0f;			//Destroy the cube by displacing its Y Position out of view
+					}
+					//destroyableObjectPos[i].y = 10.0f;
+
+					//Debug 
+					//std::cout << "DesObj X Pos: " << destroyableObjectPos[j].x  << std::endl;
+					//std::cout << "Bullet X Pos: " << bulletPosition[objectsInstantiated].x * 2.0f << std::endl;
+					
 				}
-				if (bulletPosition[objectsInstantiated].x <= destroyableObjectPos[destroyableObjects].x - 0.25f && bulletPosition[objectsInstantiated].x <= destroyableObjectPos[destroyableObjects].x) { // Check negative x for bullet in range of objects x width 
+				if (bulletPosition[objectsInstantiated].x * 2.0f <= destroyableObjectPos[destroyableObjects].x - 0.5f && bulletPosition[objectsInstantiated].x * 2.0f <= destroyableObjectPos[destroyableObjects].x) { // Check negative x for bullet in range of objects x width 
 					//std::cout << "Bullet Collided with Object in the positive x range!" << std::endl;
 				}
 			}
@@ -578,13 +590,6 @@ int main(void)
 
 
 		models[objectsInstantiated] = glm::scale(models[objectsInstantiated], glm::vec3(1.0f, 1.0f, 1.0f));
-		
-		/*
-		for (glm::mat4 modd : models)
-		{
-
-			}
-		}*/
 	
 		glBindVertexArray(0);
 
