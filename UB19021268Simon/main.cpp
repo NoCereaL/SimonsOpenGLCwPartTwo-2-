@@ -33,7 +33,7 @@ GLfloat lastY = HEIGHT / 2.0;
 bool keys[1024];
 
 // Light attributes
-glm::vec3 lightPos(1.0f, 2.0f, 1.0f);
+glm::vec3 lightPos(5.0f, 6.5f, -2.0f);
 
 // Deltatime
 GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
@@ -156,47 +156,93 @@ int main(void)
 
 	//++++++++++Set up vertex data (and buffer(s)) and attribute pointers+++++++++
 	GLfloat vertices[] = {
-		-0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,
-		0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,
-		0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 0.0f,
-		0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,
+		//position             //normal vector
+	   -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+	   0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+	   0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+	   0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+	   -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+	   -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
 
-		-0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 0.0f,
-		0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,  0.0f, 1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,  0.0f, 1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f, 0.0f, 1.0f, 0.0f,
+	   -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+	   0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+	   0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+	   0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+	   -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+	   -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
 
-		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
+	   -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+	   -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+	   -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+	   -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+	   -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+	   -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
 
-		0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 0.0f,
-		0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 0.0f,
-		0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 0.0f,
-		0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 0.0f,
-		0.5f, -0.5f,  0.5f,  1.0f, 1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 0.0f,
+	   0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+	   0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+	   0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+	   0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+	   0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+	   0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
 
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 1.0f,
+	   -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+	   0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+	   0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+	   0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+	   -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+	   -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
 
-		-0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 1.0f,
-		0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 1.0f,
-		-0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 1.0f
+	   -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+	   0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+	   0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+	   0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+	   -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+	   -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
+	};
+
+	GLfloat lightVertices[] = {
+		//position             //normal vector
+	   -0.5f, -0.5f, -0.5f,  1.0f,  1.0f, 1.0f,
+	   0.5f, -0.5f, -0.5f,  1.0f,  1.0f, 1.0f,
+	   0.5f,  0.5f, -0.5f,  1.0f,  1.0f, 1.0f,
+	   0.5f,  0.5f, -0.5f,  1.0f,  1.0f, 1.0f,
+	   -0.5f,  0.5f, -0.5f,  1.0f,  1.0f, 1.0f,
+	   -0.5f, -0.5f, -0.5f,  1.0f,  1.0f, 1.0f,
+
+	   -0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  1.0f,
+	   0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  1.0f,
+	   0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  1.0f,
+	   0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  1.0f,
+	   -0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  1.0f,
+	   -0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  1.0f,
+
+	   -0.5f,  0.5f,  0.5f, 1.0f,  1.0f,  -1.0f,
+	   -0.5f,  0.5f, -0.5f, 1.0f,  1.0f,  -1.0f,
+	   -0.5f, -0.5f, -0.5f, 1.0f,  1.0f,  -1.0f,
+	   -0.5f, -0.5f, -0.5f, 1.0f,  1.0f,  -1.0f,
+	   -0.5f, -0.5f,  0.5f, 1.0f,  1.0f,  -1.0f,
+	   -0.5f,  0.5f,  0.5f, 1.0f,  1.0f,  -1.0f,
+
+	   0.5f,  0.5f,  0.5f,  1.0f,  1.0f,  1.0f,
+	   0.5f,  0.5f, -0.5f,  1.0f,  1.0f,  1.0f,
+	   0.5f, -0.5f, -0.5f,  1.0f,  1.0f,  1.0f,
+	   0.5f, -0.5f, -0.5f,  1.0f,  1.0f,  1.0f,
+	   0.5f, -0.5f,  0.5f,  1.0f,  1.0f,  1.0f,
+	   0.5f,  0.5f,  0.5f,  1.0f,  1.0f,  1.0f,
+
+	   -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,  1.0f,
+	   0.5f, -0.5f, -0.5f,  0.0f, 1.0f,  1.0f,
+	   0.5f, -0.5f,  0.5f,  0.0f, 1.0f,  1.0f,
+	   0.5f, -0.5f,  0.5f,  0.0f, 1.0f,  1.0f,
+	   -0.5f, -0.5f,  0.5f,  0.0f, 1.0f,  1.0f,
+	   -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,  1.0f,
+
+	   -0.5f,  0.5f, -0.5f,  1.0f,  1.0f,  1.0f,
+	   0.5f,  0.5f, -0.5f,  1.0f,  1.0f,  1.0f,
+	   0.5f,  0.5f,  0.5f,  1.0f,  1.0f,  1.0f,
+	   0.5f,  0.5f,  0.5f,  1.0f,  1.0f,  1.0f,
+	   -0.5f,  0.5f,  0.5f,  1.0f,  1.0f,  1.0f,
+	   -0.5f,  0.5f, -0.5f,  1.0f,  1.0f,  1.0f
 	};
 
 	GLfloat pyramid[] = {
@@ -240,31 +286,31 @@ int main(void)
 		3.0f, 2.0f, 1.0f,  0.0f, 0.0f, 1.0f,	//Z top right
 		2.5f,  2.5f, 1.5f,  0.0f, 0.0f, 1.0f,	//top
 
-		2.0f, 2.0f, 2.0f,  1.0f, 1.0f, 0.0f,	//Bottom Left
-		2.0f, 2.0f, 1.0f,  1.0f, 1.0f, 0.0f,	//Z top left
-		2.5f,  2.5f, 1.5f,  1.0f, 1.0f, 0.0f,	//top
+		2.0f, 2.0f, 2.0f,  1.0f, -1.0f, 0.0f,	//Bottom Left
+		2.0f, 2.0f, 1.0f,  1.0f, -1.0f, 0.0f,	//Z top left
+		2.5f,  2.5f, 1.5f,  1.0f, -1.0f, 0.0f,	//top
 
-		3.0f, 2.0f, 2.0f,  1.0f, 0.0f, 1.0f,	//Bottom Right
-		3.0f, 2.0f, 1.0f,  1.0f, 0.0f, 1.0f,	//Z top right
-		2.5f,  2.5f, 1.5f,  1.0f, 0.0f, 1.0f,	//top
+		3.0f, 2.0f, 2.0f,  1.0f, 0.0f, -1.0f,	//Bottom Right
+		3.0f, 2.0f, 1.0f,  1.0f, 0.0f, -1.0f,	//Z top right
+		2.5f,  2.5f, 1.5f,  1.0f, 0.0f, -1.0f,	//top
 
 
 
 		2.0f, 2.0f, 2.0f,  0.0f, 1.0f, 0.0f,	//Bottom Left
 		3.0f, 2.0f, 2.0f,  0.0f, 1.0f, 0.0f,	//Bottom right
-		2.5f,  1.5f, 1.5f,  0.0f, 1.0f, 0.0f,	//top
+		2.5f,  1.5f, 1.5f,  0.0f, 1.0f, 0.0f,	//Bottom
 
 		2.0f, 2.0f, 1.0f,  0.0f, 0.0f, 1.0f,	//Z top Left
 		3.0f, 2.0f, 1.0f,  0.0f, 0.0f, 1.0f,	//Z top right
-		2.5f,  1.5f, 1.5f,  0.0f, 0.0f, 1.0f,	//top
+		2.5f,  1.5f, 1.5f,  0.0f, 0.0f, 1.0f,	//Bottom
 
 		2.0f, 2.0f, 2.0f,  1.0f, 1.0f, 0.0f,	//Bottom Left
 		2.0f, 2.0f, 1.0f,  1.0f, 1.0f, 0.0f,	//Z top left
-		2.5f,  1.5f, 1.5f,  1.0f, 1.0f, 0.0f,	//top
+		2.5f,  1.5f, 1.5f,  1.0f, 1.0f, 0.0f,	//Bottom
 
 		3.0f, 2.0f, 2.0f,  1.0f, 0.0f, 1.0f,	//Bottom Right
 		3.0f, 2.0f, 1.0f,  1.0f, 0.0f, 1.0f,	//Z top right
-		2.5f,  1.5f, 1.5f,  1.0f, 0.0f, 1.0f,	//top
+		2.5f,  1.5f, 1.5f,  1.0f, 0.0f, 1.0f,	//Bottom
 	};
 
 	GLuint VBO[2], VAO[2];
@@ -291,7 +337,7 @@ int main(void)
 	// ===============================
 	glBindVertexArray(VAO[1]);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(pyramid), pyramid, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(lightVertices), lightVertices, GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);	// Vertex attributes stay the same
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat))); // Color attribute
@@ -302,6 +348,17 @@ int main(void)
 	// ===============================
 	glBindVertexArray(VAO[2]);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO[2]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(pyramid), pyramid, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);	// Vertex attributes stay the same
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat))); // Color attribute
+	glEnableVertexAttribArray(1);
+	glBindVertexArray(0);
+	// ================================
+	// buffer setup Square Based Pyramids
+	// ===============================
+	glBindVertexArray(VAO[3]);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO[3]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(octahedron), octahedron, GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);	// Vertex attributes stay the same
 	glEnableVertexAttribArray(0);
@@ -325,7 +382,7 @@ int main(void)
 		do_movement();
 
 		/* Render here */
-		glClearColor(0.2f, 0.2f, 0.3f, 1.0f);
+		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		// Draw the cube
@@ -336,7 +393,7 @@ int main(void)
 		GLint lightPosLoc = glGetUniformLocation(shaderProgram, "lightPos");
 		GLint viewPosLoc = glGetUniformLocation(shaderProgram, "viewPos");
 		glUniform3f(objectColorLoc, 1.0f, 0.0f, 0.0f);									//Object Color
-		glUniform3f(lightColorLoc, 1.0f, 1.0f, 1.0f);
+		glUniform3f(lightColorLoc, 0.99f, 1.0f, 0.7f);
 		glUniform3f(lightPosLoc, lightPos.x, lightPos.y, lightPos.z);
 		glUniform3f(viewPosLoc, cameraPos.x, cameraPos.y, cameraPos.z);
 
@@ -367,8 +424,6 @@ int main(void)
 
 		//Draw Floor - This is where we draw the floor for the level
 
-
-		// Draw the third cube
 		// use shader
 		glUseProgram(shaderProgram);
 
@@ -391,6 +446,7 @@ int main(void)
 		// draw object
 		glBindVertexArray(VAO[0]);
 		glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
+
 
 
 		//Draw Destroyable Objects
@@ -417,7 +473,7 @@ int main(void)
 
 		}
 
-		glUniform3f(objectColorLoc, 0.0f, 0.0f, 1.0f);									//Object Color
+		glUniform3f(objectColorLoc, 0.09f, 0.77f, 1.0f);									//Object Color
 		InstantiatedDestroyableObject(destroyableModels, view, projection, modelLoc, viewLoc, projLoc, VAO[0], destroyableDistance);	// Draw all the objects currently instantiated using the cube vertex array	
 
 		// Draw the second cube
@@ -468,6 +524,32 @@ int main(void)
 
 
 
+		//Draw Light Object
+
+		// Create transformations
+		glm::mat4 lightObject;
+
+		lightObject = glm::scale(lightObject, glm::vec3(1.0f, 1.0f, 1.0f));
+		//model3 = glm::rotate(model3, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		lightObject = glm::translate(lightObject, glm::vec3(5.0f, 6.0f, -2.0f));
+
+		lightObject = glm::rotate(lightObject, -0.785f, glm::vec3(0, 0, 1.0f));
+		lightObject = glm::rotate(lightObject, -0.785f, glm::vec3(1.0, 0, 0.0f));
+
+		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+		projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
+
+		// Pass them to the shaders
+		glUniform3f(objectColorLoc, 1.0f, 1.0f, 1.0f);									//Object Color
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(lightObject));
+		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+		// draw object
+		glBindVertexArray(VAO[1]);
+		glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
+
+
 
 		// Draw the pyramid
 		// use shader
@@ -495,7 +577,7 @@ int main(void)
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
 		// draw object
-		glBindVertexArray(VAO[1]);
+		glBindVertexArray(VAO[2]);
 		glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
 
 		// Draw the second pyramid
@@ -524,7 +606,7 @@ int main(void)
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
 		// draw object
-		glBindVertexArray(VAO[1]);
+		glBindVertexArray(VAO[2]);
 		glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
 
 
@@ -557,7 +639,7 @@ int main(void)
 		}
 
 		glUniform3f(objectColorLoc, 1.0f, 0.55f, 0.0f);									//Object Color
-		InstantiatedBullet(models, view, projection, modelLoc, viewLoc, projLoc, VAO[2], distanceTraveled);			// Draw all the bullets currently instantiated using the octahedron vertex array
+		InstantiatedBullet(models, view, projection, modelLoc, viewLoc, projLoc, VAO[3], distanceTraveled);			// Draw all the bullets currently instantiated using the octahedron vertex array
 
 		for (int i = 0; i <= objectsInstantiated; i++)
 		{
