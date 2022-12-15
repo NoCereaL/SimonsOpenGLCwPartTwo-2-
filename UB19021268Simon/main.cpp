@@ -49,7 +49,7 @@ int itteration = 0;
 //Destroyable Objects Set up
 int destroyableObjects = 0;
 GLfloat desZPos = 0;
-glm::vec3 destroyableObjectPos[3];
+glm::vec3 destroyableObjectPos[100];
 
 GLfloat timeSinceDesRefresh = 0;
 GLfloat desRefreshTime = 1.5f;
@@ -72,7 +72,7 @@ void InstantiatedBullet(glm::mat4 models[100], glm::mat4 view, glm::mat4 project
 	{
 		if (objectsInstantiated >= i) {		//For each object
 			models[i] = glm::scale(models[i], glm::vec3(1.0f, 1.0f, 1.0f));
-			models[i] = glm::translate(models[i], glm::vec3(cameraPos.x -2.5f + cameraPos.x, cameraPos.y -2.5f + bulletPosition[objectsInstantiated].y, cameraPos.z + (-(GLfloat)glfwGetTime()*speed) + (distanceTraveled[i]*speed) -3 ));			//shoot bullet from player perspective		| Remember time has to = 0 to translate by time from current pos
+			models[i] = glm::translate(models[i], glm::vec3(cameraPos.x -2.5f + cameraPos.x, cameraPos.y -2.5f + bulletPosition[objectsInstantiated-1].y, cameraPos.z + (-(GLfloat)glfwGetTime()*speed) + (distanceTraveled[i]*speed) -3 ));			//shoot bullet from player perspective		| Remember time has to = 0 to translate by time from current pos
 
 			//bulletPosition[i] = glm::vec3(cameraPos.x - 2.5f + cameraPos.x, cameraPos.y - 2.5f, cameraPos.z + (-(GLfloat)glfwGetTime() * speed) + (distanceTraveled[i] * speed) - 3);		//Store bullet position
 
@@ -574,8 +574,10 @@ int main(void)
 					
 					
 					if (-bulletPosition[objectsInstantiated].z <= destroyableDistance[j] && -bulletPosition[objectsInstantiated].z >= destroyableDistance[j] - 1.5f) {		//Check if the bullet is at face or in a cube
-						destroyableObjectPos[j].y = -30.0f;			//Destroy the cube by displacing its Y Position out of view
-						bulletPosition[objectsInstantiated].y = -30.0f;			//Destroy bullet by displacing its Y Position out of view
+						destroyableObjectPos[j].y = -30.0f + (-(GLfloat)glfwGetTime()*2.5f) + destroyableDistance[j];			//Destroy the cube by displacing its Y Position out of view
+						if (destroyableObjectPos[j].y + 32.0f >= bulletPosition[objectsInstantiated].y )		//If the Destroyable objects y position is in range of bullet y position, Destroy both items
+						bulletPosition[objectsInstantiated-1].y = -60.0f;			//Destroy bullet by displacing its Y Position out of view
+						destroyableObjectPos[j].x = -30.0f;				//Also Displace destroyable object x axis so it can not run in this if block twice every frame
 						score = score + 10;
 						std::cout << "Score: " << score << std::endl;
 					}
