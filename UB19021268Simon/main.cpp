@@ -72,7 +72,7 @@ void InstantiatedBullet(glm::mat4 models[100], glm::mat4 view, glm::mat4 project
 	{
 		if (objectsInstantiated >= i) {		//For each object
 			models[i] = glm::scale(models[i], glm::vec3(1.0f, 1.0f, 1.0f));
-			models[i] = glm::translate(models[i], glm::vec3(cameraPos.x -2.5f + cameraPos.x, cameraPos.y -2.5f , cameraPos.z + (-(GLfloat)glfwGetTime()*speed) + (distanceTraveled[i]*speed) -3 ));			//shoot bullet from player perspective		| Remember time has to = 0 to translate by time from current pos
+			models[i] = glm::translate(models[i], glm::vec3(cameraPos.x -2.5f + cameraPos.x, cameraPos.y -2.5f + bulletPosition[objectsInstantiated].y, cameraPos.z + (-(GLfloat)glfwGetTime()*speed) + (distanceTraveled[i]*speed) -3 ));			//shoot bullet from player perspective		| Remember time has to = 0 to translate by time from current pos
 
 			//bulletPosition[i] = glm::vec3(cameraPos.x - 2.5f + cameraPos.x, cameraPos.y - 2.5f, cameraPos.z + (-(GLfloat)glfwGetTime() * speed) + (distanceTraveled[i] * speed) - 3);		//Store bullet position
 
@@ -224,6 +224,49 @@ int main(void)
 		2.5f,  3.5f, 1.5f,  1.0f, 0.0f, 1.0f,	//top
 	};
 
+	GLfloat octahedron[] = {
+		2.0f, 2.0f, 2.0f,  1.0f, 0.0f, 0.0f,	//Bottom Left
+		3.0f, 2.0f, 2.0f,  1.0f, 0.0f, 0.0f,	//Bottom right
+		3.0f,  2.0f, 1.0f,  1.0f, 0.0f, 0.0f,	//Z top Right
+		2.0f,  2.0f, 2.0f, 1.0f, 0.0f, 0.0f,	//Bottom left
+		2.0f,  2.0f, 1.0f,  1.0f, 0.0f, 0.0f,	//Z top left
+		3.0f, 2.0f, 1.0f,  1.0f, 0.0f, 0.0f,	//Z top Right
+
+		2.0f, 2.0f, 2.0f,  0.0f, 1.0f, 0.0f,	//Bottom Left
+		3.0f, 2.0f, 2.0f,  0.0f, 1.0f, 0.0f,	//Bottom right
+		2.5f,  2.5f, 1.5f,  0.0f, 1.0f, 0.0f,	//top
+
+		2.0f, 2.0f, 1.0f,  0.0f, 0.0f, 1.0f,	//Z top Left
+		3.0f, 2.0f, 1.0f,  0.0f, 0.0f, 1.0f,	//Z top right
+		2.5f,  2.5f, 1.5f,  0.0f, 0.0f, 1.0f,	//top
+
+		2.0f, 2.0f, 2.0f,  1.0f, 1.0f, 0.0f,	//Bottom Left
+		2.0f, 2.0f, 1.0f,  1.0f, 1.0f, 0.0f,	//Z top left
+		2.5f,  2.5f, 1.5f,  1.0f, 1.0f, 0.0f,	//top
+
+		3.0f, 2.0f, 2.0f,  1.0f, 0.0f, 1.0f,	//Bottom Right
+		3.0f, 2.0f, 1.0f,  1.0f, 0.0f, 1.0f,	//Z top right
+		2.5f,  2.5f, 1.5f,  1.0f, 0.0f, 1.0f,	//top
+
+
+
+		2.0f, 2.0f, 2.0f,  0.0f, 1.0f, 0.0f,	//Bottom Left
+		3.0f, 2.0f, 2.0f,  0.0f, 1.0f, 0.0f,	//Bottom right
+		2.5f,  1.5f, 1.5f,  0.0f, 1.0f, 0.0f,	//top
+
+		2.0f, 2.0f, 1.0f,  0.0f, 0.0f, 1.0f,	//Z top Left
+		3.0f, 2.0f, 1.0f,  0.0f, 0.0f, 1.0f,	//Z top right
+		2.5f,  1.5f, 1.5f,  0.0f, 0.0f, 1.0f,	//top
+
+		2.0f, 2.0f, 2.0f,  1.0f, 1.0f, 0.0f,	//Bottom Left
+		2.0f, 2.0f, 1.0f,  1.0f, 1.0f, 0.0f,	//Z top left
+		2.5f,  1.5f, 1.5f,  1.0f, 1.0f, 0.0f,	//top
+
+		3.0f, 2.0f, 2.0f,  1.0f, 0.0f, 1.0f,	//Bottom Right
+		3.0f, 2.0f, 1.0f,  1.0f, 0.0f, 1.0f,	//Z top right
+		2.5f,  1.5f, 1.5f,  1.0f, 0.0f, 1.0f,	//top
+	};
+
 	GLuint VBO[2], VAO[2];
 	glGenVertexArrays(2, &VAO[1]);
 	glGenBuffers(2, &VBO[1]);
@@ -249,6 +292,17 @@ int main(void)
 	glBindVertexArray(VAO[1]);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(pyramid), pyramid, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);	// Vertex attributes stay the same
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat))); // Color attribute
+	glEnableVertexAttribArray(1);
+	glBindVertexArray(0);
+	// ================================
+	// buffer setup Square Based Pyramids
+	// ===============================
+	glBindVertexArray(VAO[2]);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO[2]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(octahedron), octahedron, GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);	// Vertex attributes stay the same
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat))); // Color attribute
@@ -493,7 +547,7 @@ int main(void)
 		}
 
 		glUniform3f(objectColorLoc, 1.0f, 0.55f, 0.0f);									//Object Color
-		InstantiatedBullet(models, view, projection, modelLoc, viewLoc, projLoc, VAO[1], distanceTraveled);			// Draw all the bullets currently instantiated using the pyramid vertex array
+		InstantiatedBullet(models, view, projection, modelLoc, viewLoc, projLoc, VAO[2], distanceTraveled);			// Draw all the bullets currently instantiated using the octahedron vertex array
 
 		for (int i = 0; i <= objectsInstantiated; i++)
 		{
@@ -521,6 +575,7 @@ int main(void)
 					
 					if (-bulletPosition[objectsInstantiated].z <= destroyableDistance[j] && -bulletPosition[objectsInstantiated].z >= destroyableDistance[j] - 1.5f) {		//Check if the bullet is at face or in a cube
 						destroyableObjectPos[j].y = -30.0f;			//Destroy the cube by displacing its Y Position out of view
+						bulletPosition[objectsInstantiated].y = -30.0f;			//Destroy bullet by displacing its Y Position out of view
 						score = score + 10;
 						std::cout << "Score: " << score << std::endl;
 					}
