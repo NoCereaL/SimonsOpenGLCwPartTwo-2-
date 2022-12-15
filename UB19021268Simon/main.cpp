@@ -59,58 +59,19 @@ bool finishedSpawn = false;
 int speed = 90;
 glm::vec3 bulletPosition[100];
 
-
-void InstantiatedObject(glm::mat4 view, glm::mat4 projection, GLint modelLoc, GLint viewLoc, GLint projLoc, GLuint VAO) {
-	glm::mat4 model;
-	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-	//model3 = glm::rotate(model3, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-	model = glm::translate(model, glm::vec3(-2.0f, -1.0f, -(GLfloat)glfwGetTime() + timeLastPressed));
-
-	view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-	projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
-
-	// Pass them to the shaders
-	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-	glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
-	// draw object
-	glBindVertexArray(VAO);
-	glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
-}
+//Game Properties
+int score = 0;
+int endGameCount = 30;
 
 
-void InstantiatedObjects(glm::mat4 models[100], glm::mat4 view, glm::mat4 projection, GLint modelLoc, GLint viewLoc, GLint projLoc, GLuint VAO, GLfloat distanceTraveled[100]) {
-	for (int i = 0; i <= objectsInstantiated; i++)		//For every object instantiated, dray arrays
-	{
-		if (objectsInstantiated >= i) {		//For each object
-			models[i] = glm::scale(models[i], glm::vec3(1.0f, 1.0f, 1.0f));
-			//model3 = glm::rotate(model3, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-			models[i] = glm::translate(models[i], glm::vec3(cameraPos.x , cameraPos.y , -distanceTraveled[i]));			//show object at position instantiated
 
-			view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-			projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
-
-			// Pass them to the shaders
-			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(models[i]));
-			glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-			glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
-			// draw object
-			glBindVertexArray(VAO);
-			glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
-		}
-	}
-}
+//Void Methods for Game Objects
 
 void InstantiatedBullet(glm::mat4 models[100], glm::mat4 view, glm::mat4 projection, GLint modelLoc, GLint viewLoc, GLint projLoc, GLuint VAO, GLfloat distanceTraveled[100]) {
 	for (int i = 0; i <= objectsInstantiated; i++)		//For every object instantiated, dray arrays
 	{
 		if (objectsInstantiated >= i) {		//For each object
 			models[i] = glm::scale(models[i], glm::vec3(1.0f, 1.0f, 1.0f));
-			//model3 = glm::rotate(model3, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-			//models[i] = glm::translate(models[i], glm::vec3(cameraPos.x -2.5f + cameraPos.x, cameraPos.y -2.5f ,  (-distanceTraveled[i] -(GLfloat)glfwGetTime()) + distanceTraveled[i] *3 - distanceTraveled[i] - cameraUp.z));			//shoot bullet from player perspective
-			//models[i] = glm::translate(models[i], glm::vec3(cameraPos.x -2.5f + cameraPos.x, cameraPos.y -2.5f ,  - distanceTraveled[i]  ));			//shoot bullet from player perspective
 			models[i] = glm::translate(models[i], glm::vec3(cameraPos.x -2.5f + cameraPos.x, cameraPos.y -2.5f , cameraPos.z + (-(GLfloat)glfwGetTime()*speed) + (distanceTraveled[i]*speed) -3 ));			//shoot bullet from player perspective		| Remember time has to = 0 to translate by time from current pos
 
 			//bulletPosition[i] = glm::vec3(cameraPos.x - 2.5f + cameraPos.x, cameraPos.y - 2.5f, cameraPos.z + (-(GLfloat)glfwGetTime() * speed) + (distanceTraveled[i] * speed) - 3);		//Store bullet position
@@ -135,7 +96,6 @@ void InstantiatedDestroyableObject(glm::mat4 models[100], glm::mat4 view, glm::m
 	{
 		if (destroyableObjects >= i) {		//For each object
 			models[i] = glm::scale(models[i], glm::vec3(1.0f, 1.0f, 1.0f));
-			//model3 = glm::rotate(model3, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
 			models[i] = glm::translate(models[i], glm::vec3(destroyableObjectPos[i].x, destroyableObjectPos[i].y, -distanceTraveled[i]));			//shoot bullet from player perspective
 
 			view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
@@ -154,6 +114,8 @@ void InstantiatedDestroyableObject(glm::mat4 models[100], glm::mat4 view, glm::m
 }
 
 
+
+//Main Void Method
 
 int main(void)
 {
@@ -381,18 +343,18 @@ int main(void)
 
 
 
-		GLfloat destroyableDistance[100];
-		glm::mat4 destroyableModels[100];
+		GLfloat destroyableDistance[100];				//Create an array for the distance instantiated on Z axis for each destroyable model	
+		glm::mat4 destroyableModels[100];				//Create an array of destroyable models for instantiated objects
 
 		int stateTwo = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT);
-		if ( time >= timeSinceDesRefresh + desRefreshTime)
+		if ( time >= timeSinceDesRefresh + desRefreshTime)			//For every destroyable refresh time = 1.5s instantiate a new destroyable object
 		{
 			timeSinceDesRefresh = time;
 			destroyableObjects = destroyableObjects + 1;
 			destroyableDistance[destroyableObjects] = time * 3.0f;		//Store Distance traveled for each object instance created
 
-			int random = rand() % 5 + (-2);			//Random number between range 2 and -2
-			destroyableObjectPos[destroyableObjects] = glm::vec3(random, 0.0f, destroyableDistance[destroyableObjects]);
+			int random = rand() % 5 + (-2);			//Random number between range 2 and -2	for the X axis location
+			destroyableObjectPos[destroyableObjects] = glm::vec3(random, 0.0f, destroyableDistance[destroyableObjects]);		// Store the overall position using vec3 for destroyable object
 
 			//Debug
 			//std::cout << "Destroyable " << destroyableObjects << " Object Instantiated" << std::endl;
@@ -402,7 +364,7 @@ int main(void)
 		}
 
 		glUniform3f(objectColorLoc, 0.0f, 0.0f, 1.0f);									//Object Color
-		InstantiatedDestroyableObject(destroyableModels, view, projection, modelLoc, viewLoc, projLoc, VAO[0], destroyableDistance);
+		InstantiatedDestroyableObject(destroyableModels, view, projection, modelLoc, viewLoc, projLoc, VAO[0], destroyableDistance);	// Draw all the objects currently instantiated using the cube vertex array	
 
 		// Draw the second cube
 		// use shader
@@ -503,7 +465,8 @@ int main(void)
 
 
 
-		//Instantiated Objects
+
+		//Instantiated Bullets
 
 		// Draw the first instantiated cube
 		// use shader
@@ -511,32 +474,15 @@ int main(void)
 
 
 		// Create transformations
-		glm::mat4 models[100];
-		GLfloat distanceTraveled[100];
-
-		model3 = glm::scale(model3, glm::vec3(1.0f, 1.0f, 1.0f));
-		//model3 = glm::rotate(model3, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-		model3 = glm::translate(model3, glm::vec3(2.0f, -1.0f, -3.0f));
-
-		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-		projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
-
-		// Pass them to the shaders
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model3));
-		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
-		// draw object
-		glBindVertexArray(VAO[0]);
-		glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
-
+		glm::mat4 models[100];				//Create an array of models for instantiated bullets
+		GLfloat distanceTraveled[100];			//Create an array for the distance traveled on Z axis for each model		
 
 
 		//On Click Method
 		int state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
-		if (state == GLFW_PRESS && time >= timeLastPressed + pressDelayTime)
+		if (state == GLFW_PRESS && time >= timeLastPressed + pressDelayTime)		//For every click store bullets current position, and clamp the delay time between clicks
 		{
-			timeLastPressed = time;
+			timeLastPressed = time;					
 			objectsInstantiated = objectsInstantiated + 1;
 			distanceTraveled[objectsInstantiated] = time;		//Store Distance traveled for each object instance created
 
@@ -546,7 +492,9 @@ int main(void)
 			
 		}
 
-		InstantiatedBullet(models, view, projection, modelLoc, viewLoc, projLoc, VAO[0], distanceTraveled);
+		glUniform3f(objectColorLoc, 1.0f, 0.55f, 0.0f);									//Object Color
+		InstantiatedBullet(models, view, projection, modelLoc, viewLoc, projLoc, VAO[1], distanceTraveled);			// Draw all the bullets currently instantiated using the pyramid vertex array
+
 		for (int i = 0; i <= objectsInstantiated; i++)
 		{
 			bulletPosition[objectsInstantiated] = glm::vec3(cameraPos.x, cameraPos.y, cameraPos.z + (-(GLfloat)glfwGetTime() * speed) + (distanceTraveled[i] * speed) - 3);		//Store bullet position
@@ -560,9 +508,9 @@ int main(void)
 
 		
 		//Collision Method
-		for (int i = 0; i <= objectsInstantiated; i++)
+		for (int i = 0; i <= objectsInstantiated; i++)				//For every bullet shot
 		{
-			for (int j = 0; j <= destroyableObjects; j++)
+			for (int j = 0; j <= destroyableObjects; j++)			//for every destroyable object instantiated
 			{
 				//std::cout << "Des Obj Z Pos: " << destroyableObjectPos[destroyableObjects].z << std::endl;
 				//std::cout << "Bullet Z Pos: " << bulletPosition[objectsInstantiated].z << std::endl;
@@ -573,18 +521,23 @@ int main(void)
 					
 					if (-bulletPosition[objectsInstantiated].z <= destroyableDistance[j] && -bulletPosition[objectsInstantiated].z >= destroyableDistance[j] - 1.5f) {		//Check if the bullet is at face or in a cube
 						destroyableObjectPos[j].y = -30.0f;			//Destroy the cube by displacing its Y Position out of view
+						score = score + 10;
+						std::cout << "Score: " << score << std::endl;
 					}
-					//destroyableObjectPos[i].y = 10.0f;
 
 					//Debug 
 					//std::cout << "DesObj X Pos: " << destroyableObjectPos[j].x  << std::endl;
 					//std::cout << "Bullet X Pos: " << bulletPosition[objectsInstantiated].x * 2.0f << std::endl;
 					
 				}
-				if (bulletPosition[objectsInstantiated].x * 2.0f <= destroyableObjectPos[destroyableObjects].x - 0.5f && bulletPosition[objectsInstantiated].x * 2.0f <= destroyableObjectPos[destroyableObjects].x) { // Check negative x for bullet in range of objects x width 
-					//std::cout << "Bullet Collided with Object in the positive x range!" << std::endl;
-				}
 			}
+		}
+
+
+		//End Game Method
+		if (destroyableObjects >= endGameCount) {						//After an amount of objects end game
+			std::cout << "Your Final Score: " << score << std::endl;
+			glfwSetWindowShouldClose(window, GL_TRUE);				//Close GL window
 		}
 
 
@@ -600,8 +553,8 @@ int main(void)
 		glfwPollEvents();
 	}
 	// Properly de-allocate all resources once they've outlived their purpose
-	glDeleteVertexArrays(1, &VAO[2]);
-	glDeleteBuffers(1, &VBO[2]);
+	glDeleteVertexArrays(7 + objectsInstantiated + destroyableObjects, VAO);
+	glDeleteBuffers(7 + objectsInstantiated + destroyableObjects, VBO);
 
 	glfwTerminate();
 	return 0;
