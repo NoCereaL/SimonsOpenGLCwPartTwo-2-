@@ -33,7 +33,7 @@ GLfloat lastY = HEIGHT / 2.0;
 bool keys[1024];
 
 // Light attributes
-glm::vec3 lightPos(1.0f, 0.0f, 1.0f);
+glm::vec3 lightPos(1.0f, 2.0f, 1.0f);
 
 // Deltatime
 GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
@@ -480,6 +480,11 @@ int main(void)
 		//pyramidModel = glm::translate(pyramidModel, glm::vec3(glm::abs(glm::sin(time) * 4.5f), 2.0f, -4.0f));
 		pyramidModel = glm::translate(pyramidModel, glm::vec3(-4.0f,-2.0f,-4.0f));
 
+		//Animation
+		pyramidModel = glm::translate(pyramidModel, glm::vec3(2.5f, 0.0f, 0.0f));
+		pyramidModel = glm::rotate(pyramidModel, -0.785f * (GLfloat)glfwGetTime() , glm::vec3(0.0f,1.0f,0.0f));
+		pyramidModel = glm::translate(pyramidModel, glm::vec3(-2.5f,0.0f,-1.5f));
+
 		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 		projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
 
@@ -503,6 +508,11 @@ int main(void)
 		pyramidModel2 = glm::scale(pyramidModel2, glm::vec3(2.0f, 2.0f, 2.0f));
 		//pyramidModel = glm::translate(pyramidModel, glm::vec3(glm::abs(glm::sin(time) * 4.5f), 2.0f, -4.0f));
 		pyramidModel2 = glm::translate(pyramidModel2, glm::vec3(-1.0f, -2.0f, -4.0f));
+
+		//Animation
+		pyramidModel2 = glm::translate(pyramidModel2, glm::vec3(2.5f, 0.0f, 0.0f));
+		pyramidModel2 = glm::rotate(pyramidModel2, -0.785f * (GLfloat)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
+		pyramidModel2 = glm::translate(pyramidModel2, glm::vec3(-2.5f, 0.0f, -1.5f));
 
 		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 		projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
